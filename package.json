@@ -1,0 +1,43 @@
+{
+  "name": "obs-mic-tuner",
+  "version": "1.0.0",
+  "description": "Local microphone measurement and OBS filter suggestions",
+  "private": true,
+  "type": "module",
+  "main": "main.cjs",
+  "scripts": {
+    "postinstall": "node scripts/vendor.cjs",
+    "start": "electron .",
+    "test": "node --test tests/*.test.mjs",
+    "test:smoke": "electron scripts/smoke.cjs",
+    "test:fixture": "powershell -NoProfile -File scripts/fixture.ps1",
+    "build": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "@shiguredo/rnnoise-wasm": "2025.1.5",
+    "electron": "44.2.0",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "jp.obsmictuner.desktop",
+    "productName": "OBS Mic Tuner",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "app/**/*",
+      "assets/**/*",
+      "package.json",
+      "updates.cjs"
+    ],
+    "win": {
+      "target": "portable",
+      "signExecutable": false,
+      "icon": "assets/icon.ico"
+    },
+    "compression": "normal",
+    "artifactName": "OBS-Mic-Tuner-${version}-Windows.${ext}"
+  }
+}

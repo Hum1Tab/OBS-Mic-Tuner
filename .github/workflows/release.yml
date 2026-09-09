@@ -1,0 +1,38 @@
+name: Windows release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Check version
+        shell: pwsh
+        run: |
+          $version = (Get-Content package.json | ConvertFrom-Json).version
+          if ($env:GITHUB_REF_TYPE -eq 'tag' -and $env:GITHUB_REF_NAME -ne "v$version") { throw 'Tag must match package.json' }
+      - run: npm run build
+      - name: Package licenses and documentation
+        shell: pwsh
+        run: |
+          node scripts/package-preview.cjs
+          $version = (Get-Content package.json | ConvertFrom-Json).version
+          Compress-Archive -Path "dist/OBS-Mic-Tuner-$version/*" -DestinationPath "dist/OBS-Mic-Tuner-$version-Windows.zip"
+      - name: Publish release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN || github.token }}
+        run: node scripts/publish-release.cjs
