@@ -1,6 +1,6 @@
 {
   "name": "obs-mic-tuner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Local microphone measurement and OBS filter suggestions",
   "private": true,
   "type": "module",
@@ -29,8 +29,7 @@
       "preload.cjs",
       "app/**/*",
       "assets/**/*",
-      "package.json",
-      "updates.cjs"
+      "package.json"
     ],
     "win": {
       "target": "portable",

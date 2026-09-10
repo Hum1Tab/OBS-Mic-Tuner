@@ -69,7 +69,7 @@ app.whenReady().then(async () => {
     await js("document.body.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowLeft',bubbles:true}))");
     assert.equal(await js("document.getElementById('before').getAttribute('aria-pressed')"),'true');
     await click('to-export');assert.equal(await js("document.getElementById('page-export').hidden"),false);
-    await click('copy'); await delay(200); assert.match(await clipboard.readText(), /OBS Mic Tuner 1.0.0/);
+    await click('copy'); await delay(200); assert.match(await clipboard.readText(), /OBS Mic Tuner 1.0.1/);
     dialog.showSaveDialog = async () => ({ canceled:false, filePath: reportPath });
     await click('save'); await until("document.getElementById('cue').textContent.includes('設定を保存しました')",5);
     assert.match(fs.readFileSync(reportPath,'utf8'),/計算モデル/);
@@ -111,5 +111,6 @@ app.whenReady().then(async () => {
     app.exit(0);
   } catch (e) { console.error(e); app.exit(1); }
 });
+
 
 

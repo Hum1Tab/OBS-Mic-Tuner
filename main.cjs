@@ -1,19 +1,9 @@
-const { app, BrowserWindow, session, ipcMain, clipboard, dialog, shell } = require('electron');
-const { createUpdateChecker } = require('./updates.cjs');
+const { app, BrowserWindow, session, ipcMain, clipboard, dialog } = require('electron');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const entry = pathToFileURL(path.join(__dirname, 'app/index.html')).href;
 app.whenReady().then(() => {
-  const updates = createUpdateChecker({ currentVersion: require('./package.json').version });
-  const checkedSender = event => { if (event.senderFrame?.url !== entry) throw new Error('Invalid request'); };
-  ipcMain.handle('check-update', event => { checkedSender(event); return updates.check(); });
-  ipcMain.handle('open-update', async event => {
-    checkedSender(event);
-    await updates.check();
-    if (!updates.available) return false;
-    await shell.openExternal(updates.available.url); return true;
-  });
   const checkedText = (event, text) => {
     if (event.senderFrame?.url !== entry || typeof text !== 'string' || text.length > 100000) throw new Error('Invalid request');
     return text;

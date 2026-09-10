@@ -82,10 +82,11 @@ export function tune(raw, vads, options = {}) {
     { name: 'エキスパンダー', enabled: exp.enabled, note: exp.enabled ? '前段処理後の環境音と小声から設定。試聴で語尾を確認。' : '小声を保護するため、追加しないか無効にしてください。', values: { 'プリセット': 'エキスパンダー', '比率': `${exp.ratio}:1`, 'しきい値': `${exp.threshold} dB`, 'アタック': `${exp.attack} ms`, 'リリース': `${exp.release} ms`, '出力ゲイン': '0 dB', '検出': 'RMS' } },
     { name: 'リミッター', enabled: true, note: '最後に配置。測定に含まれない大きな音もOBSで確認してください。', values: { 'しきい値': '-3 dB', 'リリース': '60 ms' } }
   ];
-  return { version: '1.0.0', reference: 'OBS Studio 32.2.2 / mono / 48 kHz', mode, denoise, noise: round(quality.noise), voice: round(quality.voice), peak: round(Math.max(...raw.map(peakOf))), outputVoice: round(outVoice), outputNoise: round(outNoise), outputPeak: round(Math.max(...output.map(peakOf))), limiterGR: round(limiterGR), tailGR: round(tailGR), suppressionSuggested, warnings, filters, settings: { compressor: best.settings, expander: exp }, playbackRaw, playbackOutput, matching: { raw: round(rawMatch + common), processed: round(common), method: '発話区間RMS一致（LUFS一致ではありません）' } };
+  return { version: '1.0.1', reference: 'OBS Studio 32.2.2 / mono / 48 kHz', mode, denoise, noise: round(quality.noise), voice: round(quality.voice), peak: round(Math.max(...raw.map(peakOf))), outputVoice: round(outVoice), outputNoise: round(outNoise), outputPeak: round(Math.max(...output.map(peakOf))), limiterGR: round(limiterGR), tailGR: round(tailGR), suppressionSuggested, warnings, filters, settings: { compressor: best.settings, expander: exp }, playbackRaw, playbackOutput, matching: { raw: round(rawMatch + common), processed: round(common), method: '発話区間RMS一致（LUFS一致ではありません）' } };
 }
 export function report(r, device = '') {
   return `OBS Mic Tuner ${r.version}\n${new Date().toLocaleString('ja-JP')}\n入力: ${device}\n仕上がり: ${r.mode === 'steady' ? '声量を安定' : '自然な声'}\n計算モデル: ${r.reference}\n\n入力 環境音 ${r.noise} / 声 ${r.voice} / ピーク ${r.peak} dBFS\n加工後（モデル） 環境音 ${r.outputNoise} / 声 ${r.outputVoice} / ピーク ${r.outputPeak} dBFS\n\nOBSのフィルタに上から順番に設定。既存フィルタとの重複を避けてください。\n\n` + r.filters.map((f, i) => `${i+1}. ${f.name} [${f.enabled ? '有効' : '無効・追加不要'}]\n${Object.entries(f.values).map(([k,v]) => `${k}: ${v}`).join('\n')}\n${f.note}`).join('\n\n') + '\n\n' + r.warnings.join('\n') + '\n\n試聴用の音量補正はOBS設定には含みません。音質や語尾はOBSでテスト録音して確認してください。OBS Project非公式の独立ツールです。';
 }
+
 
 

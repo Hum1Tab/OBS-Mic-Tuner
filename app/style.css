@@ -3,4 +3,5 @@
 .filter-grid{grid-template-columns:1fr;gap:12px}.filter{display:grid;grid-template-columns:190px 1fr;column-gap:20px;padding:20px 22px}.filter h3{display:block;line-height:1.7;margin:0}.filter small{display:table;margin-top:8px}.filter .values{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 20px}.filter .value{flex-direction:column;gap:3px}.filter .value strong{font-size:13px}.filter p{grid-column:2;margin-top:14px;padding-top:10px}.filter.inactive{background:#f7f9fb}.filter.inactive .values{display:none}.filter.inactive p{margin:0;border:0;padding:0;align-self:center}@media(max-width:1100px){.filter{grid-template-columns:150px 1fr}.filter .values{gap:12px}}
 
 #privacy:empty,#result-tag:empty,.status-message:empty{display:none}#privacy{position:fixed;right:24px;bottom:20px;z-index:2;background:#e8f1ee;border:1px solid #b9d2c8;border-radius:6px;padding:7px 12px;font-size:12px}main{padding-top:38px}.read-prompt{min-height:115px}
-.app-logo{width:36px;height:36px;border-radius:8px;flex-shrink:0}#update{width:100%;font-size:12px;margin-bottom:16px;padding:12px 6px}#update-message{margin-top:10px}#check-update{margin-top:16px}
+.app-logo{width:36px;height:36px;border-radius:8px;flex-shrink:0}
+

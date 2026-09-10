@@ -1,7 +1,9 @@
 const fs=require('node:fs');
 const path=require('node:path');
 const {execFileSync}=require('node:child_process');
-const {REPOSITORY}=require('../updates.cjs');
+const REPOSITORY='Hum1Tab/OBS-Mic-Tuner-Releases';
+const visibility=execFileSync('gh',['repo','view',REPOSITORY,'--json','visibility','--jq','.visibility'],{encoding:'utf8'}).trim();
+if(visibility!=='PRIVATE')throw Error('Binary distribution repository must be private');
 const version=require('../package.json').version;
 const exe=path.resolve(`dist/OBS-Mic-Tuner-${version}-Windows.exe`);
 const zip=path.resolve(`dist/OBS-Mic-Tuner-${version}-Windows.zip`);
@@ -13,3 +15,4 @@ const gh=(...args)=>execFileSync('gh',args,{stdio:'inherit'});
 gh('release','create',tag,'--repo',REPOSITORY,'--title',`OBS Mic Tuner ${tag}`,'--notes-file','RELEASE-NOTES.md','--draft');
 gh('release','upload',tag,exe,zip,'--repo',REPOSITORY);
 gh('release','edit',tag,'--repo',REPOSITORY,'--draft=false','--latest');
+
