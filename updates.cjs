@@ -1,4 +1,4 @@
-const REPOSITORY = 'Hum1Tab/OBS-Mic-Tuner';
+const REPOSITORY = 'Hum1Tab/OBS-Mic-Tuner-Releases';
 const API = `https://api.github.com/repos/${REPOSITORY}/releases/latest`;
 function versionParts(value) {
   const match = /^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.exec(value);
@@ -38,3 +38,4 @@ function createUpdateChecker({ currentVersion, fetchRelease = fetch, now = Date.
   };
 }
 module.exports = { REPOSITORY, API, selectUpdate, createUpdateChecker };
+
